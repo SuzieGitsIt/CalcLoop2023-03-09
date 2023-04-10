@@ -1,0 +1,53 @@
+# File:     CalcLoop2023-Calculator-03-09
+# Version:  0.0.01
+# Author:   Susan Haynes
+# Comments/Notes: 
+#   (0,0) coordinates are the top left corner of the screen for 1920x1080
+#   (0,0) coordinates are the bottom right corner of the screen for 1919x1079
+# Online References: 
+#   https://pypi.org/project/PyAutoGUI/
+#   https://pyautogui.readthedocs.io/en/latest/mouse.html
+# Revision History: N/A 
+# To find the location on a screen open IDLE 
+# >>> import pyautogui      <- this allows us to use pyautogui prompts
+# >>> pyautogui.size()    <- this returns the size of the monitor
+# >>> pyautogui.position()  <- this returns the exact location of where the mouse pointer is
+
+import pyautogui
+import subprocess                                                       # Needed to open an executable
+import time                                                             # Needed to call time to "wait" / sleep
+import psutil,os                                                        # Needed for closing an executable
+
+# Open the calculator, and pause for 2 seconds before executing, this gives the calculator time to open.
+subprocess.Popen('C:\\Windows\\System32\\calc.exe')                     # Open windows calculator
+time.sleep(2)                                                           # wait 2 seconds
+
+# Declare starting position and positions to move to
+y = 985                                                                 # y starting location
+y_p = 50                                                                # y position to down row on the calculator
+while y < 1100 :                                                        # loop until x reaches a value of 1559 (3rd column position on calculator)      
+
+    x = 1395                                                            # x starting location
+    x_p = 60                                                            # x position to move over 1 column on the calculator
+    while x < 1560:                                                     # loop until y reaches a value of 1099 (3rd row position on calculator)
+
+        pyautogui.moveTo(x, y, duration=0.1, tween=pyautogui.easeInOutQuad) # Use tweening/easing function to move mouse over 1 second.
+        pyautogui.click()
+
+        pyautogui.moveTo(1605, 1145, duration=0.1, tween=pyautogui.easeInOutQuad) # =
+        pyautogui.click()  
+
+        if x < 1560 and y < 1100 :                                     # if x is in the bottom row and y is in the 3rd column, go to the else statement
+            pyautogui.moveTo(1605, 1085, duration=0.1, tween=pyautogui.easeInOutQuad) # +
+            pyautogui.click()  
+            print("X-Position initial: ", x)            
+            x += x_p           
+            print("X-Position end of loop: ", x)       
+        
+    print("Y-Position initial: ", y)
+    y += y_p
+    print("Y-Position end of loop: ", y)   
+
+time.sleep(5)                                                           # wait 5 seconds to view the results
+#os.system("TaskKill /F /IM CalculatorApp.exe")                          # Close windows calculator
+exit()
